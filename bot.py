@@ -28,12 +28,14 @@ def startSong():
     autopy.mouse.click()
 
 def grabGameArea():
+    ''' The bot's eyes. Grabs a screenshot of the zone where keys must be pressed.'''
     gameArea = (OFFSET[0] + 79, OFFSET[1] + 25, OFFSET[0] + 120, OFFSET[1] + 174)
     im = ImageGrab.grab(gameArea)
     #im.save(os.getcwd() + '\\full_snap__' + str(int(time.time())) + '.png', 'PNG')
     return im
     
 def checkArrowSpaces():
+    ''' Detects the arrows that slide across the screen and presses the corresponding arrow keys.'''
     for i in range(40):
         # Temporary variables to aid in resetting keypresses.
         exit = False
@@ -42,6 +44,7 @@ def checkArrowSpaces():
         right = False
         down = False
         
+        # Deals with the top arrow space (the UP and RIGHT icons).
         topArrowSpace = currentGameArea[i, 43]
         if topArrowSpace == (153, 0, 0) or topArrowSpace == (177, 1, 60):
             win32api.keybd_event(win32con.VK_UP, 0, 0, 0)
@@ -53,7 +56,8 @@ def checkArrowSpaces():
             print "Tap Right"
             exit = True
             right = True
-            
+        
+        # Deals with the bottom arrow space (the LEFT and DOWN icons).
         bottomArrowSpace = currentGameArea[i, 107]
         if bottomArrowSpace == (255, 204, 0) or bottomArrowSpace == (166, 133, 0):
             win32api.keybd_event(win32con.VK_LEFT, 0, 0, 0)
@@ -66,6 +70,7 @@ def checkArrowSpaces():
             exit = True
             down = True
             
+        # Releases the keys that were pressed, thus creating a quick tap of the key.
         if exit is True:
             time.sleep(.05)
             if up:
@@ -79,10 +84,13 @@ def checkArrowSpaces():
             break
            
 def checkLetterSpaces():
+    ''' Detects the ASD icons that slide across the screen and manages those key presses (and releases).'''
+    # Variables that tell the program if the ASD keys are pressed or not.
     global aPressed
     global sPressed
     global dPressed
     
+    # Releases the A, S, or D keys when the icons are no longer present.
     if aPressed:
         if currentGameArea[0, 7] == (153, 153, 51) and currentGameArea[20, 14] == (153, 153, 51):
             win32api.keybd_event(win32api.VkKeyScan('A'), 0, win32con.KEYEVENTF_KEYUP, 0);
@@ -99,6 +107,7 @@ def checkLetterSpaces():
             print "Let Go of D"
             dPressed = False
     
+    # Scans for the A, S, and D icons. Holds down the corresponding key when it detects one.
     for i in range(40):
         if aPressed is False:
             if currentGameArea[i, 1] == (217, 236, 160):
@@ -119,6 +128,7 @@ def checkLetterSpaces():
                 dPressed = True
 
 def checkExit():
+    ''' Checks to see if the End of Song menu is present.'''
     if currentGameArea[31, 30] == (177, 101, 60) and currentGameArea[8, 116] == (255, 255, 255):
         print "\nSong complete."
         return False
