@@ -22,10 +22,12 @@ def initialSetup():
     else:
         raw_input("Couldn't detect the game. ")
 
+
 def startSong():
     ''' Presses the "Ready?" button. Not necessary.'''
     autopy.mouse.move(OFFSET[0] + 500, OFFSET[1] + 200)
     autopy.mouse.click()
+
 
 def grabGameArea():
     ''' The bot's eyes. Grabs a screenshot of the zone where keys must be pressed.'''
@@ -34,6 +36,7 @@ def grabGameArea():
     #im.save(os.getcwd() + '\\full_snap__' + str(int(time.time())) + '.png', 'PNG')
     return im
     
+
 def checkArrowSpaces():
     ''' Detects the arrows that slide across the screen and presses the corresponding arrow keys.'''
     for i in range(40):
@@ -74,14 +77,15 @@ def checkArrowSpaces():
         if exit is True:
             time.sleep(.05)
             if up:
-                win32api.keybd_event(win32con.VK_UP, 0, win32con.KEYEVENTF_KEYUP, 0);
+                win32api.keybd_event(win32con.VK_UP, 0, win32con.KEYEVENTF_KEYUP, 0)
             if right:
-                win32api.keybd_event(win32con.VK_RIGHT, 0, win32con.KEYEVENTF_KEYUP, 0);
+                win32api.keybd_event(win32con.VK_RIGHT, 0, win32con.KEYEVENTF_KEYUP, 0)
             if down:
-                win32api.keybd_event(win32con.VK_DOWN, 0, win32con.KEYEVENTF_KEYUP, 0);
+                win32api.keybd_event(win32con.VK_DOWN, 0, win32con.KEYEVENTF_KEYUP, 0)
             if left:
-                win32api.keybd_event(win32con.VK_LEFT, 0, win32con.KEYEVENTF_KEYUP, 0);
+                win32api.keybd_event(win32con.VK_LEFT, 0, win32con.KEYEVENTF_KEYUP, 0)
             break
+           
            
 def checkLetterSpaces():
     ''' Detects the ASD icons that slide across the screen and manages those key presses (and releases).'''
